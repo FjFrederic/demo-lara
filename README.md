@@ -3,12 +3,14 @@
 ## Notice 
 - Require node 14 for dev
 - Require php 8
-- Base de donne : Postgres
-- Lancer le commande composer install
-- Lancer le commande npm install
+- Base de donneés utilisé : Postgres
+- Lancer le commande `composer install`
+- Lancer le commande `npm install` (require for develloppement only)
 - Database : Dans le dossier \database\dump-caisse-202203011702.dump (ou vous pouvez aussi lancer le commande php artisan migrate pour avoir une nouvelle schema)
 ## Lancement du projet 
-- php artisan serve
+- Lance le commande `php artisan serve` 
+- Login [localhost](http://127.0.0.1:8000)
+- Lancer le commande `npm run dev` pour utiliser le webpack mix(require for develloppement only)
 - Default user : admin@caissemanagement.com
 - Default password user : AdminFirst1@caisse
 ## Autre 
