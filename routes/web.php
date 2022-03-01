@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OperationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
+
+Route::get('/home', [OperationsController::class, 'index'])
+    ->name('home');
+
+Route::post('ajoutOperation', [OperationsController::class, 'ajoutOperation'])
+->name('ajoutOperation');
+
+Route::delete('deleteOperation/{id}', [OperationsController::class, 'deleteOperation'])
+    ->name('deleteOperation');
+
+Auth::routes();
