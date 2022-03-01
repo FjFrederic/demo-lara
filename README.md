@@ -2,6 +2,7 @@
 
 ## Notice 
 - Require node 14 for dev
+- Require php 8
 - Base de donne : Postgres
 - Lancer le commande composer install
 - Lancer le commande npm install
