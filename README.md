@@ -1,7 +1,7 @@
 
 
 ## Notice 
-- Node 14 for dev
+- Require node 14 for dev
 - Base de donne : Postgres
 - Lancer le commande composer install
 - Path db : Dans le dossier \database (ou vous pouvez aussi lancer le commande php artisan migrate pour avoir une nouvelle schema)
