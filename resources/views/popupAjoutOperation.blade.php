@@ -158,7 +158,7 @@
 			    </div>
                 <div id="popaff-footer" class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
-                    <button type="submit" class="btn btn-secondary" > Enregistrer</button>
+                    <button type="submit" class="btn btn-secondary add-operation" > Enregistrer</button>
                 </div>
             </form>
 		</div>

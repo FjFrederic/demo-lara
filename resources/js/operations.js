@@ -89,6 +89,10 @@ $(document).ready(function() {
         $("#modalAjoutOperation").modal('hide');
     });
 
+    $("#modalAjoutOperation .add-operation").on('click', function(){
+        window.localStorage.removeItem('totalMontant');
+   });
+
     $("#modalDeleteConfirm .close").on('click', function(){
         $("#modalDeleteConfirm").modal('hide');
     });
@@ -125,9 +129,11 @@ delete_block = function () {
         var oldMontant = parseFloat($('.totalMontant').text());
         $(my_group).each(function(){
             $parent = $(this).parents('.block-billetage');
-            var montantDeleted = $parent.find('.montantbillets').text();
-            var totalMontant = oldMontant - parseFloat(montantDeleted);
-            $('.totalMontant').text(totalMontant);
+            var montantDeleted = parseFloat($parent.find('.montantbillets').text());
+            const OldTotalMontant = localStorage.getItem('totalMontant');
+            var totalMontant = OldTotalMontant - montantDeleted;
+            localStorage.setItem('totalMontant', totalMontant);
+            $('.totalMontant').html(localStorage.getItem('totalMontant'));
             $(this).parents('.block-billetage').remove();
         });
     });
@@ -138,18 +144,23 @@ calcul_billets = function() {
         var my_group = this;
         $(my_group).each(function(){
             $parent = $(this).parents('.block-billetage');
-            var quantiteBillets = parseFloat($parent.find('.quantiteBillets').val());
-            if (quantiteBillets) {
-                var nominalBilletsValue = $(this).val();
+            const quantiteBilletsValue = parseFloat($parent.find('.quantiteBillets').val());
+            if (quantiteBilletsValue) {
+                const nominalBilletsValue = parseFloat($(this).val());
+                  //convertion cents en euro
                 if ($parent.find("select[name='nominalCentimes[]']").length > 0) {
                     nominalBilletsValue = nominalBilletsValue / 100;
                 }
-                var total = parseFloat(nominalBilletsValue) * parseFloat(quantiteBillets);
-                var oldTotal = $parent.find('.montantbillets').text();
-                $parent.find('.montantbillets').text(total.toPrecision(2))
-                var oldMontant = parseFloat($('.totalMontant').text());
-                var montant = (oldMontant + total) - parseFloat(oldTotal);
-                $('.totalMontant').text(montant);
+                const montantQuantite = parseFloat(nominalBilletsValue) * parseFloat(quantiteBilletsValue);
+                const totalMontant = localStorage.getItem('totalMontant');
+                if (totalMontant === null) {
+                    localStorage.setItem('totalMontant', parseFloat(montantQuantite));
+                } else {
+                    const OldTotalMontant = parseFloat(localStorage.getItem('totalMontant'));
+                    localStorage.setItem('totalMontant', (OldTotalMontant + montantQuantite).toPrecision(2));
+                }
+                $parent.find('.montantbillets').text(montantQuantite.toPrecision(2).replace(/(\.0+|0+)$/, ''));
+                $('.totalMontant').html(localStorage.getItem('totalMontant'));
             }
         });
     });
@@ -158,18 +169,22 @@ calcul_billets = function() {
         var my_group = this;
         $(my_group).each(function(){
             $parent = $(this).parents('.block-billetage');
-            var nominalBillets = $parent.find('.nominalBillets');
-            var nominalBilletsValue = parseFloat(nominalBillets.val());
+            const nominalBilletsValue = parseFloat($parent.find('.nominalBillets').val());
             if (nominalBilletsValue) {
+                //convertion cents en euro
                 if ($parent.find("select[name='nominalCentimes[]']").length > 0) {
                     nominalBilletsValue = nominalBilletsValue / 100;
                 }
-                var total = parseFloat($(this).val()) * parseFloat(nominalBilletsValue);
-                var oldTotal = $parent.find('.montantbillets').text();
-                $parent.find('.montantbillets').text(total.toPrecision(2))
-                var oldMontant = parseFloat($('.totalMontant').text());
-                var montant = (oldMontant + total) - parseFloat(oldTotal);
-                $('.totalMontant').text(montant);
+                const montantBillets = parseFloat($(this).val()) * parseFloat(nominalBilletsValue);
+                const totalMontant = localStorage.getItem('totalMontant');
+                if (totalMontant === null) {
+                    localStorage.setItem('totalMontant', parseFloat(montantBillets));
+                } else {
+                    const OldTotalMontant = parseFloat(localStorage.getItem('totalMontant'));
+                    localStorage.setItem('totalMontant', (OldTotalMontant + montantBillets).toPrecision(2));
+                }
+                $parent.find('.montantbillets').text(montantBillets.toPrecision(2).replace(/(\.0)$/, ''));
+                $('.totalMontant').html(localStorage.getItem('totalMontant'));
             }
         });
     });
